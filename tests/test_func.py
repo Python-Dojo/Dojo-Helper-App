@@ -1,4 +1,5 @@
-import unittest, func
+import unittest
+from funcs import func
 
 class Test(unittest.TestCase):
 
