@@ -2,7 +2,7 @@ name: Unit Tests Linux
 
 on:
   push:
-  pull_request:
+  # pull_request:
 
 jobs:
   run-tests:
