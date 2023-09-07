@@ -33,6 +33,10 @@ jobs:
       - name: Check if installed packages confirm with requirements.txt
         run: |
           pip freeze -r requirements.txt
+      
+      - name: Check format without making corrections
+        run: |
+          flake8 funcs/*.py
 
       - name: Run tests
         run: |
