@@ -1,8 +1,10 @@
 name: Unit Test Linux
 
 on:
-  # push:
-  pull_request:
+  workflow_run:
+    workflows: [Linting Linux]
+    types:
+      - completed
 
 jobs:
   run-tests:
@@ -15,7 +17,7 @@ jobs:
 
     name: unit-test
     runs-on: ${{ matrix.os }}
-    # runs-on: python:alpine
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout code
@@ -33,12 +35,7 @@ jobs:
       - name: Check if installed packages confirm with requirements.txt
         run: |
           pip freeze -r requirements.txt
-      
-      - name: Check format without making corrections
-        run: |
-          flake8 funcs/*.py
 
       - name: Run tests
         run: |
           python -m unittest discover -v
-
