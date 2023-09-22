@@ -1,7 +1,6 @@
 name: Linting Linux
 
 on:
-  # push:
   pull_request:
 
 jobs:
@@ -15,7 +14,6 @@ jobs:
 
     name: linting
     runs-on: ${{ matrix.os }}
-    # runs-on: python:alpine
 
     steps:
       - name: Checkout code
