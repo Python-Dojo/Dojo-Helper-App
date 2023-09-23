@@ -7,7 +7,7 @@ on:
       - completed
 
 jobs:
-  run-tests:
+  unit-test:
     strategy:
       fail-fast: false
       matrix:

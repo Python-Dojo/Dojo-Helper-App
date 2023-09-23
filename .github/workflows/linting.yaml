@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  run-tests:
+  linting:
     strategy:
       fail-fast: false
       matrix:
