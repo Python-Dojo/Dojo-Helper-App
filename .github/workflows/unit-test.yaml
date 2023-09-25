@@ -1,10 +1,6 @@
 name: Unit Test Linux
 
-on:
-  workflow_run:
-    workflows: [Linting Linux]
-    types:
-      - completed
+on: push
 
 jobs:
   unit-test:
