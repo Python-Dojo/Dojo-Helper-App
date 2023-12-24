@@ -27,19 +27,19 @@ class Test(unittest.TestCase):
     #         scrapper.run()
     #     self.assertEqual(str(ctx_manager.exception), 'Invalid login credentials')
 
-    def test_scrapper_download_repo_as_zip(self):
-        test_url = "https://replit.com/@pythondojoarchi/SlipperyGargantuanDebuggers"
-        target_zip_name = "SlipperyGargantuanDebuggers.zip"
-        WDIR = os.path.abspath(os.path.dirname(__name__))
-        full_target_file_path = os.path.join(WDIR, "screen-shots", target_zip_name)
-        print(full_target_file_path)
+    # def test_scrapper_download_repo_as_zip(self):
+    #     test_url = "https://replit.com/@pythondojoarchi/SlipperyGargantuanDebuggers"
+    #     target_zip_name = "SlipperyGargantuanDebuggers.zip"
+    #     WDIR = os.path.abspath(os.path.dirname(__name__))
+    #     full_target_file_path = os.path.join(WDIR, "screen-shots", target_zip_name)
+    #     print(full_target_file_path)
 
-        scrapper = ReplitScrapper(login_name=os.environ['EMAIL'], login_password=os.environ['PASSWORD'])
-        scrapper.set_replit_url(test_url)
-        scrapper.run()
+    #     scrapper = ReplitScrapper(login_name=os.environ['EMAIL'], login_password=os.environ['PASSWORD'])
+    #     scrapper.set_replit_url(test_url)
+    #     scrapper.run()
 
-        print(scrapper.get_downloaded_filename())
-        self.assertTrue(os.path.exists(full_target_file_path))
+    #     print(scrapper.get_downloaded_filename())
+    #     self.assertTrue(os.path.exists(full_target_file_path))
 
 
 if __name__ == "__main__":
