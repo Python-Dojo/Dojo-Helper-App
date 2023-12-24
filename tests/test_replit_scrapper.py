@@ -1,49 +1,45 @@
 import unittest
 from funcs.replit_scrapper import ReplitScrapper
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class Test(unittest.TestCase):
 
-    # def test_scrapper_quit(self):
-    #     scrapper = ReplitScrapper()
-    #     scrapper.driver.get('https://www.google.com/')
-    #     scrapper.cleanup()
-    #     self.assertFalse(scrapper.driver.service.is_connectable())
-        
-    # def test_scrapper_login_replit_homepage(self):
-    #     scrapper = ReplitScrapper()
-    #     scrapper.login()
-    #     WebDriverWait(scrapper.driver, 10).until(
-    #         EC.presence_of_element_located((By.XPATH, "//div[@data-cy='home-page']"))
-    #     )
-    #     self.assertEqual(scrapper.driver.current_url, 'https://replit.com/~')
-    #     scrapper.cleanup()
+    def test_scrapper_raise_value_error_when_replit_url_not_set(self):
+        scrapper = ReplitScrapper(login_name=None, login_password=None)
+        with self.assertRaises(ValueError) as ctx_manager:
+            scrapper.get_replit_url()
+        self.assertEqual(str(ctx_manager.exception), 'Missing replit_url')
 
-    # def test_scrapper_get_given_url_after_login(self):
-    #     scrapper = ReplitScrapper()
-    #     scrapper.login()
-    #     scrapper.driver.get('https://replit.com/@JustCallMeRay/Group2-Aug-23')
-    #     self.assertEqual(scrapper.driver.current_url, 'https://replit.com/@JustCallMeRay/Group2-Aug-23')
-    #     scrapper.cleanup()
+    def test_scrapper_return_replit_url(self):
+        test_url = "https://replit.com/@pythondojoarchi/SlipperyGargantuanDebuggers"
 
-    # def test_scrapper_returns_list_given_empty_input(self):
-    #     scrapper = ReplitScrapper()
-    #     scrapper.login()
-    #     file_list = scrapper.get_file_list()
-    #     self.assertIsInstance(file_list, list)
-    #     scrapper.cleanup()
-    
-    def test_scrapper_returns_file_list_given_non_empty_input(self):
-        scrapper = ReplitScrapper()
-        # scrapper.login()
-        scrapper.driver.get('https://replit.com/@JustCallMeRay/Group2-Aug-23')
-        file_list = scrapper.get_file_list()
-        expected = ['main.py']
-        self.assertListEqual(file_list, expected)
-        scrapper.cleanup()
+        scrapper = ReplitScrapper(login_name=None, login_password=None)
+        scrapper.set_replit_url(test_url)
+        self.assertEqual(scrapper.get_replit_url(), test_url)
+
+    # Commented out to avoid acount freezes
+    # def test_scrapper_login_with_invalid_credentials(self):
+    #     scrapper = ReplitScrapper(login_name = os.environ['EMAIL'], login_password = "ThisIsNotTheCorrectPassword")
+    #     with self.assertRaises(ValueError) as ctx_manager:
+    #         scrapper.run()
+    #     self.assertEqual(str(ctx_manager.exception), 'Invalid login credentials')
+
+    def test_scrapper_download_repo_as_zip(self):
+        test_url = "https://replit.com/@pythondojoarchi/SlipperyGargantuanDebuggers"
+        target_zip_name = "SlipperyGargantuanDebuggers.zip"
+        WDIR = os.path.abspath(os.path.dirname(__name__))
+        full_target_file_path = os.path.join(WDIR, "screen-shots", target_zip_name)
+        print(full_target_file_path)
+
+        scrapper = ReplitScrapper(login_name=os.environ['EMAIL'], login_password=os.environ['PASSWORD'])
+        scrapper.set_replit_url(test_url)
+        scrapper.run()
+
+        print(scrapper.get_downloaded_filename())
+        self.assertTrue(os.path.exists(full_target_file_path))
 
 
 if __name__ == "__main__":
