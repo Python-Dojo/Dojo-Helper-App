@@ -35,6 +35,7 @@ class GithubArchiver(GithubArchiverInterface):
         return self._project_name
 
     def identify_target_files(self) -> None:
+        print("GithubArchiver: Begin to parse target files...")
         download_folder_path = "./screen-shots"
         extracted_folder_path = os.path.join(download_folder_path, self.get_project_name())
         assert os.path.isdir(extracted_folder_path) is True, "Target folder does not exist"
@@ -58,11 +59,14 @@ class GithubArchiver(GithubArchiverInterface):
                 if not any(excluded in file_relative_path for excluded in replit_junk):
                     self._file_paths[file_relative_path] = file_full_path
                     self._file_list.append(file_relative_path)
+        
+        print("GithubArchiver: Target files are parsed")
 
     def get_target_files(self) -> list:
         return self._file_list
 
     def commit_to_github(self) -> None:
+        print("GithubArchiver: Begin to upload files to Github...")
         assert len(self._file_list) != 0, "Target files are not identified"
         auth = Auth.Token(self.__github_access_token)
         g = Github(auth=auth)
@@ -104,12 +108,12 @@ class GithubArchiver(GithubArchiverInterface):
         )
 
         archive_ref = repo.get_git_ref(ref='heads/main')
-        print(f"Archive_ref: {archive_ref}")
+        print(f"GithubArchiver: Archive_ref is {archive_ref}")
         self._commit_sha = commit.sha
 
         # Commit to Github
         archive_ref.edit(sha=commit.sha)
-        print("Upload complete")
+        print("GithubArchiver: Upload complete")
 
         g.close()
 
