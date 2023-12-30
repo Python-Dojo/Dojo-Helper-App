@@ -3,14 +3,12 @@ from playwright_stealth import stealth_sync
 
 
 class ReplitScrapper():
-    ua = (
-        """
-        Mozilla/5.0 (Windows NT 10.0; Win64; x64)
-        AppleWebKit/537.36 (KHTML, like Gecko)
-        Chrome/116.0.0.0
-        Safari/537.36
-        Edg/116.0.1938.81
-        """
+    user_agent = (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/116.0.0.0 "
+        "Safari/537.36 "
+        "Edg/116.0.1938.81"
     )
 
     def __init__(self, login_name, login_password):
@@ -103,13 +101,14 @@ class ReplitScrapper():
         download.save_as(f"./screen-shots/{download.suggested_filename}")
 
     def run(self):
+        print("ReplitScrapper: Begin downloading repo files...")
         with sync_playwright() as p:
             # Context setup
             browser = p.chromium.launch(slow_mo=50)
             # browser = p.chromium.launch(headless=False
             #                 , slow_mo=50
             #                 )
-            context = browser.new_context(user_agent=ReplitScrapper.ua)
+            context = browser.new_context(user_agent=ReplitScrapper.user_agent)
             page = context.new_page()
             stealth_sync(page)
 
@@ -123,3 +122,4 @@ class ReplitScrapper():
             # Clean-up
             context.close()
             browser.close()
+        print("ReplitScrapper: Download complete")
