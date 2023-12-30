@@ -59,7 +59,7 @@ class GithubArchiver(GithubArchiverInterface):
                 if not any(excluded in file_relative_path for excluded in replit_junk):
                     self._file_paths[file_relative_path] = file_full_path
                     self._file_list.append(file_relative_path)
-        
+
         print("GithubArchiver: Target files are parsed")
 
     def get_target_files(self) -> list:
