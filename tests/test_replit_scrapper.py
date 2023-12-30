@@ -1,6 +1,6 @@
 import unittest
 from funcs.replit_scrapper import ReplitScrapper
-import os
+# import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
         scrapper.set_replit_url(test_url)
         self.assertEqual(scrapper.get_replit_url(), test_url)
 
-    # Commented out to avoid acount freezes
+    # Commented out to avoid replit acount freezes
     # def test_scrapper_login_with_invalid_credentials(self):
     #     scrapper = ReplitScrapper(login_name = os.environ['EMAIL'], login_password = "ThisIsNotTheCorrectPassword")
     #     with self.assertRaises(ValueError) as ctx_manager:
